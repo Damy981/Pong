@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6ar7abd6pvsr"]
+
+[ext_resource type="Script" path="res://Scenes/start_button.gd" id="1_omvnb"]
+[ext_resource type="Script" path="res://Scenes/exit_button.gd" id="2_iv3ce"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 507.0
+offset_top = 149.0
+offset_right = 563.0
+offset_bottom = 180.0
+text = "START"
+script = ExtResource("1_omvnb")
+
+[node name="ExitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 508.0
+offset_top = 190.0
+offset_right = 564.0
+offset_bottom = 221.0
+text = "EXIT"
+script = ExtResource("2_iv3ce")
+
+[connection signal="pressed" from="StartButton" to="StartButton" method="_on_pressed"]
+[connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_pressed"]

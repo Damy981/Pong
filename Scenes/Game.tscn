@@ -1,0 +1,132 @@
+[gd_scene load_steps=16 format=3 uid="uid://c8s5cmqihda0m"]
+
+[ext_resource type="Texture2D" uid="uid://v8dnoc781qya" path="res://Assets/Board.png" id="1_dnehe"]
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_egdtr"]
+[ext_resource type="Texture2D" uid="uid://b0ifq7y0bhthf" path="res://Assets/Player.png" id="1_ugep7"]
+[ext_resource type="Texture2D" uid="uid://c134v1cjmwe71" path="res://Assets/Computer.png" id="2_c6ymx"]
+[ext_resource type="Script" path="res://Scenes/player_2.gd" id="3_cjkkq"]
+[ext_resource type="Texture2D" uid="uid://c4mmtx61peidi" path="res://Assets/ScoreBar.png" id="3_whkev"]
+[ext_resource type="Texture2D" uid="uid://d0mjpoeye57c1" path="res://Assets/Ball.png" id="4_j3o6k"]
+[ext_resource type="Script" path="res://Scenes/ball.gd" id="6_cldok"]
+[ext_resource type="Script" path="res://Scenes/label.gd" id="6_y246k"]
+[ext_resource type="Script" path="res://Scenes/resume.gd" id="10_50a85"]
+[ext_resource type="Script" path="res://Scenes/start.gd" id="11_0ddl3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdr50"]
+size = Vector2(19, 119)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nnjdt"]
+radius = 16.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_77nja"]
+size = Vector2(1147, 18.6875)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y1l14"]
+size = Vector2(60, 641)
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(11, 89)
+script = ExtResource("1_egdtr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_fdr50")
+
+[node name="PlayerSprite" type="Sprite2D" parent="Player"]
+texture = ExtResource("1_ugep7")
+
+[node name="Player2" type="CharacterBody2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(1142, 550)
+script = ExtResource("3_cjkkq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_fdr50")
+
+[node name="Player2Sprite" type="Sprite2D" parent="Player2"]
+texture = ExtResource("2_c6ymx")
+
+[node name="Score" type="Sprite2D" parent="."]
+position = Vector2(570, 36)
+texture = ExtResource("3_whkev")
+
+[node name="ScoreLabel" type="Label" parent="Score"]
+unique_name_in_owner = true
+offset_left = -170.0
+offset_top = -26.0
+offset_right = 174.0
+offset_bottom = 26.0
+vertical_alignment = 1
+script = ExtResource("6_y246k")
+
+[node name="Ball" type="RigidBody2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(38, 98)
+collision_mask = 3
+script = ExtResource("6_cldok")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("CircleShape2D_nnjdt")
+
+[node name="BallSprite" type="Sprite2D" parent="Ball"]
+texture = ExtResource("4_j3o6k")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Sprite2D" type="Sprite2D" parent="Background"]
+position = Vector2(576, 323)
+scale = Vector2(1.43392, 1.41429)
+texture = ExtResource("1_dnehe")
+
+[node name="GameArea" type="StaticBody2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameArea"]
+position = Vector2(573, 652.313)
+shape = SubResource("RectangleShape2D_77nja")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="GameArea"]
+position = Vector2(574.5, -8.34375)
+shape = SubResource("RectangleShape2D_77nja")
+
+[node name="PlayerBorder" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerBorder"]
+position = Vector2(-30, 321.5)
+shape = SubResource("RectangleShape2D_y1l14")
+
+[node name="Player2Border" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2Border"]
+position = Vector2(1183, 320)
+shape = SubResource("RectangleShape2D_y1l14")
+
+[node name="Resume" type="Label" parent="."]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+offset_left = 481.0
+offset_top = 196.0
+offset_right = 663.0
+offset_bottom = 221.0
+text = "Press Space to Resume"
+script = ExtResource("10_50a85")
+
+[node name="Start" type="Label" parent="."]
+process_mode = 3
+offset_left = 499.0
+offset_top = 280.0
+offset_right = 652.0
+offset_bottom = 303.0
+text = "Press Space to Start"
+script = ExtResource("11_0ddl3")
+
+[connection signal="body_entered" from="PlayerBorder" to="Ball" method="_on_player_border_body_entered"]
+[connection signal="body_entered" from="Player2Border" to="Ball" method="_on_player_2_border_body_entered"]
