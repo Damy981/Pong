@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c8s5cmqihda0m"]
+[gd_scene load_steps=19 format=3 uid="uid://c8s5cmqihda0m"]
 
 [ext_resource type="Texture2D" uid="uid://v8dnoc781qya" path="res://Assets/Board.png" id="1_dnehe"]
 [ext_resource type="Script" path="res://Scenes/player.gd" id="1_egdtr"]
@@ -11,6 +11,9 @@
 [ext_resource type="Script" path="res://Scenes/label.gd" id="6_y246k"]
 [ext_resource type="Script" path="res://Scenes/resume.gd" id="10_50a85"]
 [ext_resource type="Script" path="res://Scenes/start.gd" id="11_0ddl3"]
+[ext_resource type="AudioStream" uid="uid://jwkieddpb7x2" path="res://Assets/Pong Score.mp3" id="12_t768y"]
+[ext_resource type="AudioStream" uid="uid://bdso6jwemwqt1" path="res://Assets/Pong Paddle.mp3" id="13_svnjc"]
+[ext_resource type="AudioStream" uid="uid://dl2itvh8vkr5e" path="res://Assets/Pong Wall.mp3" id="14_k06ty"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fdr50"]
 size = Vector2(19, 119)
@@ -38,6 +41,13 @@ shape = SubResource("RectangleShape2D_fdr50")
 [node name="PlayerSprite" type="Sprite2D" parent="Player"]
 texture = ExtResource("1_ugep7")
 
+[node name="Area2DPlayer" type="Area2D" parent="Player"]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2DPlayer"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_fdr50")
+
 [node name="Player2" type="CharacterBody2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(1142, 550)
@@ -49,6 +59,12 @@ shape = SubResource("RectangleShape2D_fdr50")
 
 [node name="Player2Sprite" type="Sprite2D" parent="Player2"]
 texture = ExtResource("2_c6ymx")
+
+[node name="Area2DPlayer2" type="Area2D" parent="Player2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2/Area2DPlayer2"]
+position = Vector2(-4, 1)
+shape = SubResource("RectangleShape2D_fdr50")
 
 [node name="Score" type="Sprite2D" parent="."]
 position = Vector2(570, 36)
@@ -94,6 +110,16 @@ shape = SubResource("RectangleShape2D_77nja")
 position = Vector2(574.5, -8.34375)
 shape = SubResource("RectangleShape2D_77nja")
 
+[node name="Area2D" type="Area2D" parent="GameArea"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameArea/Area2D"]
+position = Vector2(587, 644)
+shape = SubResource("RectangleShape2D_77nja")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="GameArea/Area2D"]
+position = Vector2(577, -1)
+shape = SubResource("RectangleShape2D_77nja")
+
 [node name="PlayerBorder" type="Area2D" parent="."]
 collision_layer = 2
 
@@ -128,5 +154,20 @@ offset_bottom = 303.0
 text = "Press Space to Start"
 script = ExtResource("11_0ddl3")
 
+[node name="ScoreSong" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("12_t768y")
+
+[node name="PaddleSong" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("13_svnjc")
+
+[node name="WallSong" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("14_k06ty")
+
+[connection signal="body_entered" from="Player/Area2DPlayer" to="Ball" method="_on_area_2d_player_body_entered"]
+[connection signal="body_entered" from="Player2/Area2DPlayer2" to="Ball" method="_on_area_2d_player_2_body_entered"]
+[connection signal="body_entered" from="GameArea/Area2D" to="Ball" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="PlayerBorder" to="Ball" method="_on_player_border_body_entered"]
 [connection signal="body_entered" from="Player2Border" to="Ball" method="_on_player_2_border_body_entered"]
