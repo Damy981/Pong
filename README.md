@@ -20,3 +20,5 @@ Designed as a learning project and portfolio piece, showcasing the ability to im
 
 How to Run:
 Open the project in Godot and press Play. No additional setup required.
+
+<img width="1146" height="637" alt="Immagine 2025-08-26 192855" src="https://github.com/user-attachments/assets/54d10ed8-d68f-4af0-ac66-230111eb31dd" />
